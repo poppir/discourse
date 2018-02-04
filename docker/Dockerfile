@@ -139,3 +139,6 @@ RUN useradd discourse -s /bin/bash -m -U &&\
     sudo -u discourse bundle install --deployment \
          --without test --without development &&\
     find /var/www/discourse/vendor/bundle -name tmp -type d -exec rm -rf {} +
+
+ADD discourse.conf /var/www/discourse/config/discourse.conf
+ADD web.yml /var/www/discourse/web.yml
