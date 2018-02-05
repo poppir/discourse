@@ -147,4 +147,4 @@ RUN /pups/bin/pups /var/www/discourse/web.yml
 
 # run service
 EXPOSE 80
-CMD ./nginx_and_unicorn.sh
+CMD bash /var/www/discourse/nginx_and_unicorn.sh
