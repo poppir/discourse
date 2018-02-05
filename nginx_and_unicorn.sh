@@ -1,2 +1,2 @@
-/etc/service/nginx/run &
-/etc/service/unicorn/run &
+/etc/service/nginx/run
+/etc/service/unicorn/run
