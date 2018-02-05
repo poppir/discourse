@@ -95,6 +95,21 @@ run:
      contents: |
        #!/bin/bash
        sv stop unicorn
+
+  - exec:
+      cd: $home
+      hook: code
+      cmd:
+        - mkdir -p tmp/pids
+        - mkdir -p tmp/sockets
+        - touch tmp/.gitkeep
+        - mkdir -p                    /shared/log/rails
+        - bash -c "touch -a           /shared/log/rails/{production,production_errors,unicorn.stdout,unicorn.stderr}.log"
+        - bash -c "ln    -s           /shared/log/rails/{production,production_errors,unicorn.stdout,unicorn.stderr}.log $home/log"
+        - bash -c "mkdir -p           /shared/{uploads,backups}"
+        - bash -c "ln    -s           /shared/{uploads,backups} $home/public"
+        - chown -R discourse:www-data /shared/log/rails /shared/uploads /shared/backups
+
   - exec:
       cmd:
         - "cp $home/config/nginx.sample.conf /etc/nginx/conf.d/discourse.conf"
@@ -139,9 +154,9 @@ run:
       cd: $home
       hook: bundle_exec
       cmd:
-        - su discourse -c 'bundle install --deployment --verbose --without test --without development --retry 3 --jobs 4'
-        - su discourse -c 'bundle exec rake db:migrate'
-        - su discourse -c 'bundle exec rake assets:precompile'
+        - su discourse -c 'RAILS_ENV=production bundle install --deployment --verbose --without test --without development --retry 3 --jobs 4'
+        - su discourse -c 'RAILS_ENV=production bundle exec rake db:migrate'
+        - su discourse -c 'RAILS_ENV=production bundle exec rake assets:precompile'
 
   - file:
      path: /usr/local/bin/discourse

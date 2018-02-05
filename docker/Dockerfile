@@ -141,4 +141,10 @@ RUN useradd discourse -s /bin/bash -m -U &&\
     find /var/www/discourse/vendor/bundle -name tmp -type d -exec rm -rf {} +
 
 ADD discourse.conf /var/www/discourse/config/discourse.conf
-ADD web.yml /var/www/discourse/web.yml
+
+# bootstrap
+RUN /pups/bin/pups /var/www/discourse/web.yml
+
+# run service
+EXPOSE 80
+CMD ./nginx_and_unicorn.sh
