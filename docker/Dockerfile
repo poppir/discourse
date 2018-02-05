@@ -144,7 +144,7 @@ ADD discourse.conf /var/www/discourse/config/discourse.conf
 
 # bootstrap
 RUN /pups/bin/pups /var/www/discourse/web.yml
-
+RUN /etc/service/nginx/run
 # run service
 EXPOSE 80
-CMD ["bash", "/var/www/discourse/nginx_and_unicorn.sh"]
+CMD /etc/service/unicorn/run
