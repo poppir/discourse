@@ -75,7 +75,7 @@ run:
         # postgres
         cd $home
         chown -R discourse:www-data /shared/log/rails
-        LD_PRELOAD=$RUBY_ALLOCATOR HOME=/home/discourse USER=discourse exec chpst -u discourse:www-data -U discourse:www-data bundle exec config/unicorn_launcher -E production -c config/unicorn.conf.rb
+        LD_PRELOAD=$RUBY_ALLOCATOR HOME=/home/discourse USER=discourse exec chpst -u discourse:www-data -U discourse:www-data bundle exec config/unicorn_launcher -E production -c config/unicorn.conf.rb -D
   - file:
      path: /etc/service/nginx/run
      chmod: "+x"
@@ -115,11 +115,6 @@ run:
         - "cp $home/config/nginx.sample.conf /etc/nginx/conf.d/discourse.conf"
         - "rm /etc/nginx/sites-enabled/default"
         - "mkdir -p /var/nginx/cache"
-
-  - replace:
-      filename: /etc/nginx/nginx.conf
-      from: pid /run/nginx.pid;
-      to: daemon off;
 
   - replace:
       filename: "/etc/nginx/conf.d/discourse.conf"
