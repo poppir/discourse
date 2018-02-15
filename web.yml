@@ -81,9 +81,7 @@ run:
       chmod: "+x"
       contents: |
         #!/bin/sh
-        exec 2>&1
-        exec /usr/sbin/nginx
-        exec /etc/service/unicorn/run
+        exec /usr/sbin/nginx && /etc/service/unicorn/run
   - file:
      path: /etc/service/nginx/run
      chmod: "+x"
